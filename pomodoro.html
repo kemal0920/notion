@@ -1,0 +1,61 @@
+<body ng-app="pomodoroApp" ng-controller="MainCtrl" class="grey darken-4">
+  <div class="container">
+    <br />
+    <div class="row">
+      <div class="col s4 offset-s4">
+        <ul id="tabs" class="tabs grey darken-4">
+          <li class="tab col s6"><a class="active" href="#timer">Timer</a></li>
+          <li class="tab col s6"><a href="#settings">Settings</a></li>
+        </ul>
+      </div>
+
+      <div id="timer" class="col s4 offset-s4 center-align">
+        <div class="buttons">
+          <a class="btn-flat col s12 grey-text" 
+             ng-show="mdl.state == 'BREAK_END'"
+             ng-click="startSession()">Start session</a>
+          <a class="btn-flat col s12 grey-text" 
+             ng-show="mdl.state == 'SESSION'"
+             ng-click="stopSession()">Stop session</a>
+          <a class="btn-flat col s12 grey-text" 
+             ng-show="mdl.state == 'SESSION_END'"
+             ng-click="startBreak()">Start break</a>
+          <a class="btn-flat col s12 grey-text" 
+             ng-show="mdl.state =='BREAK'"
+             ng-click="stopBreak()">Stop break</a>
+        </div>
+        <div class="timer-wrapper">
+          <svg width="400" height="250" ng-class="mdl.state == 'BREAK' ? 'break' : 'session'"></svg>
+          <h3 class="time grey-text" ng-bind="mdl.time | millisecondsToString"></h3>
+        </div>
+        
+      </div>
+      <div id="settings" class="col s4 offset-s4">
+        <p class="range-field">
+          <label for="sessionDuration">Work session duration: {{mdl.sessionLength}}m</label>
+          <input type="range" id="sessionDuration" min="0" max="60" ng-model="mdl.sessionLength"/>
+        </p>
+        <p class="range-field">
+          <label for="breakDuration">Break duration: {{mdl.breakLength}}m</label>
+          <input type="range" id="breakDuration" min="0" max="60" ng-model="mdl.breakLength"/>
+        </p>
+        <p class="range-field">
+          <label for="longBreakDuration">Long break duration: {{mdl.longBreakLength}}m</label>
+          <input type="range" id="longBreakDuration" min="0" max="60" ng-model="mdl.longBreakLength"/>
+        </p>
+        <p class="range-field">
+          <label for="sessionBeforeLongBreak">Session before long break: {{mdl.sessionsBeforeLongBreak}}</label>
+          <input type="range" id="sessionBeforeLongBreak" min="0" max="10" ng-model="mdl.sessionsBeforeLongBreak"/>
+        </p>
+        <p>
+          <input type="checkbox" id="autoStart" ng-model="mdl.autoStart"/>
+          <label for="autoStart">Automatically start break/session</label>
+        </p>
+        <p ng-show="supportNotifications()">
+          <input type="checkbox" id="enableNotifications" ng-model="mdl.showNotifications"/>
+          <label for="enableNotifications">Enable notifications</label>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
